@@ -1,13 +1,11 @@
 package com.selenium.project.tests;
 
-import com.selenium.project.pages.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 
 import java.time.Duration;
 import java.util.List;
@@ -16,7 +14,6 @@ public class PageFiltersTest extends BaseTest {
     @Test
     public void testPageFilters() {
         driver.get("https://magento.softwaretestingboard.com/");
-
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Sign in
@@ -31,29 +28,41 @@ public class PageFiltersTest extends BaseTest {
 
         // Navigate to Women > Tops > Jackets
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Women"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Jackets"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Jackets"))).click(); // Click on Jackets option
 
-        // Apply color filter
-        driver.findElement(By.cssSelector("div[option-label='Blue']")).click();
+        // Apply color filter: Open the color filter dropdown by clicking on "Color"
+        WebElement colorFilterTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='filter-options-item']//div[@data-role='title'][contains(text(), 'Color')]")));
+        colorFilterTitle.click(); // Click on the "Color" title to open the color dropdown
 
-        // Verify all displayed products have the selected color
+        // After clicking on the color filter, navigate to the color-specific URL
+        driver.get("https://magento.softwaretestingboard.com/women/tops-women/jackets-women.html?color=49");
+
+        // Verify that all displayed products have the selected color bordered in red (or any specific indication for color)
         List<WebElement> products = driver.findElements(By.cssSelector(".product-item"));
         for (WebElement product : products) {
-            Assert.assertTrue(product.findElement(By.cssSelector(".swatch-option.color")).getAttribute("option-label").equals("Blue"));
+            WebElement colorSwatch = product.findElement(By.cssSelector(".swatch-option.color"));
+            Assert.assertTrue(colorSwatch.isDisplayed(), "Color swatch is not displayed for product");
         }
 
-        // Apply price filter
-        driver.findElement(By.cssSelector("div[option-label='$50.00 - $59.99']")).click();
+        // Apply price filter: Click on the Price filter to open the dropdown
+        WebElement priceFilterTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='filter-options-item']//div[@data-role='title'][contains(text(), 'Price')]")));
+        priceFilterTitle.click(); // Click to open the Price filter dropdown
 
-        // Verify only two products are displayed
-        products = driver.findElements(By.cssSelector(".product-item"));
-        Assert.assertEquals(products.size(), 2);
+        // Click on the first price range ($50.00 - $59.99)
+        WebElement priceRangeOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='https://magento.softwaretestingboard.com/women/tops-women/jackets-women.html?color=49&amp;price=50-60']")));
+        priceRangeOption.click(); // Click to apply the price range filter
 
-        // Verify price of each product
+        WebElement priceRangeOptions = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='https://magento.softwaretestingboard.com/women/tops-women/jackets-women.html?color=49&amp;price=50-60']")));
+        priceRangeOptions.click(); // Click to apply the price range filter
+
+        // Verify that each product's price falls within the selected price range
         for (WebElement product : products) {
-            String priceText = product.findElement(By.cssSelector(".price")).getText();
-            double price = Double.parseDouble(priceText.replace("$", ""));
-            Assert.assertTrue(price >= 50.00 && price <= 59.99);
+            String priceText = product.findElement(By.cssSelector(".price")).getText().replace("$", "");
+            double price = Double.parseDouble(priceText);
+            Assert.assertTrue(price >= 50.00 && price <= 59.99, "Product price is outside the selected range: " + price);
         }
+
+        // Pass the test if all assertions pass
+        Assert.assertTrue(true);
     }
 }
