@@ -1,0 +1,4 @@
+package com.selenium.project.pages;
+
+public class WishListPage {
+}

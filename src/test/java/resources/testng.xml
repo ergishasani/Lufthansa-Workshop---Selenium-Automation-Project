@@ -1,0 +1,44 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Selenium Mini Project Suite">
+    <!-- Test 1: Create Account -->
+    <test name="Create Account Test">
+        <classes>
+            <class name="com.selenium.project.tests.CreateAccountTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 2: Sign In -->
+    <test name="Sign In Test">
+        <classes>
+            <class name="com.selenium.project.tests.SignInTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 3: Page Filters -->
+    <test name="Page Filters Test">
+        <classes>
+            <class name="com.selenium.project.tests.PageFiltersTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 4: Wish List -->
+    <test name="Wish List Test">
+        <classes>
+            <class name="com.selenium.project.tests.WishListTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 5: Shopping Cart -->
+    <test name="Shopping Cart Test">
+        <classes>
+            <class name="com.selenium.project.tests.ShoppingCartTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 6: Empty Cart -->
+    <test name="Empty Cart Test">
+        <classes>
+            <class name="com.selenium.project.tests.EmptyCartTest"/>
+        </classes>
+    </test>
+</suite>
