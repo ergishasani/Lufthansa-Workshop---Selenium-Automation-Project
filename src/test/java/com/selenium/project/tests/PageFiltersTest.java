@@ -3,9 +3,13 @@ package com.selenium.project.tests;
 import com.selenium.project.pages.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+
+import java.time.Duration;
 import java.util.List;
 
 public class PageFiltersTest extends BaseTest {
@@ -13,15 +17,21 @@ public class PageFiltersTest extends BaseTest {
     public void testPageFilters() {
         driver.get("https://magento.softwaretestingboard.com/");
 
-        HomePage homePage = new HomePage(driver);
-        homePage.clickSignInLink();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        // Add logic to sign in (if required)
+        // Sign in
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Sign In"))).click();
+        WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
+        WebElement passwordField = driver.findElement(By.id("pass"));
+        WebElement signInButton = driver.findElement(By.id("send2"));
+
+        emailField.sendKeys("gisihasani95@gmail.com");
+        passwordField.sendKeys("Alidemi1213");
+        signInButton.click();
 
         // Navigate to Women > Tops > Jackets
-        driver.findElement(By.linkText("Women")).click();
-        driver.findElement(By.linkText("Tops")).click();
-        driver.findElement(By.linkText("Jackets")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Women"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Jackets"))).click();
 
         // Apply color filter
         driver.findElement(By.cssSelector("div[option-label='Blue']")).click();
