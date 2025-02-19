@@ -70,7 +70,7 @@
             <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
           </suiteXmlFiles>
           <systemPropertyVariables>
-            <browser>chrome</browser> <!-- Set default browser -->
+            <browser>edge</browser> <!-- Set default browser to Edge -->
           </systemPropertyVariables>
         </configuration>
       </plugin>

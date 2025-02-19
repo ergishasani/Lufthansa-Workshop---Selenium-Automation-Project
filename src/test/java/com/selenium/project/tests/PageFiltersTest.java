@@ -1,13 +1,11 @@
 package com.selenium.project.tests;
 
+import com.selenium.project.pages.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 
 public class PageFiltersTest extends BaseTest {
@@ -15,11 +13,15 @@ public class PageFiltersTest extends BaseTest {
     public void testPageFilters() {
         driver.get("https://magento.softwaretestingboard.com/");
 
+        HomePage homePage = new HomePage(driver);
+        homePage.clickSignInLink();
+
+        // Add logic to sign in (if required)
+
         // Navigate to Women > Tops > Jackets
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Women"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Tops"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Jackets"))).click();
+        driver.findElement(By.linkText("Women")).click();
+        driver.findElement(By.linkText("Tops")).click();
+        driver.findElement(By.linkText("Jackets")).click();
 
         // Apply color filter
         driver.findElement(By.cssSelector("div[option-label='Blue']")).click();
