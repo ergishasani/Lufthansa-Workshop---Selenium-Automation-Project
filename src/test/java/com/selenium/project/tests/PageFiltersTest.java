@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class PageFiltersTest extends BaseTest {
+
     @Test
     public void testPageFilters() {
         driver.get("https://magento.softwaretestingboard.com/");
