@@ -17,18 +17,21 @@ public class BaseTest {
     @BeforeMethod
     @Parameters("browser") // Allows passing the browser type from testng.xml
     public void setUp(String browser) {
-        // Setup WebDriver based on the passed browser parameter
-        if (browser.equalsIgnoreCase("edge")) {
-            WebDriverManager.edgedriver().setup();
-            driver = new EdgeDriver();
-        } else if (browser.equalsIgnoreCase("chrome")) {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
-        } else {
-            throw new IllegalArgumentException("Browser not supported: " + browser);
+        switch (browser.toLowerCase()) {
+            case "edge":
+                WebDriverManager.edgedriver().setup();
+                driver = new EdgeDriver();
+                break;
+            case "chrome":
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+                break;
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid browser name: " + browser + ". Please use 'chrome', 'firefox', or 'edge'.");
         }
 
         driver.manage().window().maximize();
@@ -37,7 +40,6 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown() {
-        // Close the browser
         if (driver != null) {
             driver.quit();
         }

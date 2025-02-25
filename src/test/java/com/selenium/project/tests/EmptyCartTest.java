@@ -18,7 +18,7 @@ public class EmptyCartTest extends BaseTest {
     public void testLoginAndEmptyCart() {
         driver.get("https://magento.softwaretestingboard.com/");
 
-        // Initialize HomePage and click the Sign In link
+        // Initialize HomePage and click the SignIn link
         HomePage homePage = new HomePage(driver);
         homePage.clickSignInLink();
 
